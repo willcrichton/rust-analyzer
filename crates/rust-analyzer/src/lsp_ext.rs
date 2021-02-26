@@ -61,6 +61,14 @@ impl Request for ViewHir {
     const METHOD: &'static str = "rust-analyzer/viewHir";
 }
 
+pub enum Slice {}
+
+impl Request for Slice {
+    type Params = lsp_types::TextDocumentPositionParams;
+    type Result = String;
+    const METHOD: &'static str = "rust-analyzer/slice";
+}
+
 pub enum ExpandMacro {}
 
 impl Request for ExpandMacro {

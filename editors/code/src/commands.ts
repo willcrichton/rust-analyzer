@@ -611,3 +611,35 @@ export function newDebugConfig(ctx: Ctx): Cmd {
         await makeDebugConfig(ctx, item.runnable);
     };
 }
+
+export function slice(ctx: Ctx): Cmd {
+    const tdcp = new class implements vscode.TextDocumentContentProvider {
+        readonly uri = vscode.Uri.parse('rust-analyzer-slice://slice');
+        readonly eventEmitter = new vscode.EventEmitter<vscode.Uri>();
+
+        provideTextDocumentContent(_uri: vscode.Uri, ct: vscode.CancellationToken): vscode.ProviderResult<string> {
+            const rustEditor = ctx.activeRustEditor;
+            const client = ctx.client;
+            if (!rustEditor || !client) return '';
+
+            const params = {
+                textDocument: client.code2ProtocolConverter.asTextDocumentIdentifier(rustEditor.document),
+                position: client.code2ProtocolConverter.asPosition(
+                    rustEditor.selection.active,
+                ),
+            };
+            return client.sendRequest(ra.slice, params, ct);
+        }
+    };
+
+    ctx.pushCleanup(vscode.workspace.registerTextDocumentContentProvider('rust-analyzer-slice', tdcp));
+
+    return async () => {
+        const document = await vscode.workspace.openTextDocument(tdcp.uri);
+        tdcp.eventEmitter.fire(tdcp.uri);
+        void await vscode.window.showTextDocument(document, {
+            viewColumn: vscode.ViewColumn.Two,
+            preserveFocus: true
+        });
+    };
+}

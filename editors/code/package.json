@@ -109,6 +109,11 @@
                 "category": "Rust Analyzer"
             },
             {
+                "command": "rust-analyzer.slice",
+                "title": "Slice",
+                "category": "Rust Analyzer"
+            },
+            {
                 "command": "rust-analyzer.expandMacro",
                 "title": "Expand macro recursively",
                 "category": "Rust Analyzer"
@@ -1087,6 +1092,10 @@
                     "command": "rust-analyzer.viewHir",
                     "when": "inRustProject"
                 },
+                {
+                    "command": "rust-analyzer.slice",
+                    "when": "inRustProject"
+                },                
                 {
                     "command": "rust-analyzer.expandMacro",
                     "when": "inRustProject"

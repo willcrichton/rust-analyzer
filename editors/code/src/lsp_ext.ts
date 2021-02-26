@@ -26,6 +26,9 @@ export const syntaxTree = new lc.RequestType<SyntaxTreeParams, string, void>("ru
 
 export const viewHir = new lc.RequestType<lc.TextDocumentPositionParams, string, void>("rust-analyzer/viewHir");
 
+export const slice = new lc.RequestType<lc.TextDocumentPositionParams, string, void>("rust-analyzer/slice");
+
+
 export interface ExpandMacroParams {
     textDocument: lc.TextDocumentIdentifier;
     position: lc.Position;

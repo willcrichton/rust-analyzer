@@ -115,6 +115,13 @@ pub(crate) fn handle_view_hir(
     Ok(res)
 }
 
+pub(crate) fn handle_slice(
+    snap: GlobalStateSnapshot,
+    params: lsp_types::TextDocumentPositionParams,    
+) -> Result<String> {
+    Ok("response".to_string())
+}
+
 pub(crate) fn handle_expand_macro(
     snap: GlobalStateSnapshot,
     params: lsp_ext::ExpandMacroParams,
@@ -1503,6 +1510,7 @@ fn prepare_hover_actions(
         })
         .collect()
 }
+
 
 fn should_skip_target(runnable: &Runnable, cargo_spec: Option<&CargoTargetSpec>) -> bool {
     match runnable.kind {
